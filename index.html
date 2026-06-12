@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kodai Praveen</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff7e5f, #feb47b, #86a8e7, #91eae4); 
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .login-container {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    width: 100%;
+    max-width: 400px;
+    z-index: 1;
+    text-align: center;
+    color: #fff;
+  }
+
+  .logo {
+    width: 80px;
+    margin: 0 auto 20px;
+    display: block;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.6));
+  }
+
+  .login-container h2 {
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 0 0 5px rgba(0,0,0,0.3);
+  }
+
+  .login-container input[type="email"],
+  .login-container input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 0 20px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    outline: none;
+  }
+
+  .login-container input[type="email"]::placeholder,
+  .login-container input[type="password"]::placeholder {
+    color: rgba(255,255,255,0.8);
+  }
+
+  .login-container input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #ff512f, #dd2476);
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .login-container input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+  }
+
+  .bottom-text {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #fff;
+  }
+
+  .bottom-text a {
+    color: #ffd700;
+    text-decoration: none;
+  }
+
+  .bottom-text a:hover {
+    text-decoration: underline;
+  }
+
+  .error-message {
+    color: #ff4c4c;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  .success-message {
+    color: #00ff9c;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+<div class="login-container">
+  <img src="https://cdn-icons-png.flaticon.com/512/2203/2203076.png" alt="Petrol Pump Logo" class="logo">
+  <h2>Kodai Praveen</h2>
+  <div id="message"></div>
+  <form id="loginForm">
+    <input type="email" placeholder="Email" id="email" required />
+    <input type="password" placeholder="Password" id="password" required />
+    <input type="submit" value="Login">
+  </form>
+  <div class="bottom-text">
+    Don't have an account? <a href="#" onclick="register()">Register</a>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAdC8EUQkKUjIx3yyBOA9omBlbldcc-qBk",
+    authDomain: "newbie-f80d4.firebaseapp.com",
+    projectId: "newbie-f80d4",
+    storageBucket: "newbie-f80d4.appspot.com",
+    messagingSenderId: "732898700777",
+    appId: "1:732898700777:web:c439841fa533c25452af78",
+    measurementId: "G-8K2YCHY6L7"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      showMessage('Login successful! ✅', 'success');
+      window.location.href = "dashboard.html";
+    } catch (error) {
+      showMessage(error.message, 'error');
+    }
+  });
+
+  window.register = async function() {
+    const email = prompt("Enter email:");
+    const password = prompt("Enter password (6+ characters):");
+    if (email && password) {
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        showMessage('Registration successful! You can now login.', 'success');
+      } catch (error) {
+        showMessage(error.message, 'error');
+      }
+    }
+  }
+
+  function showMessage(msg, type) {
+    const messageDiv = document.getElementById('message');
+    messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
+    messageDiv.textContent = msg;
+  }
+</script>
+</body>
+</html>
+

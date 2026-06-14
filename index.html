@@ -1,185 +1,711 @@
-<!DOCTYPE html>
-<html lang="en">
+ <!DOCTYPE html>
+<html lang="ta">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kodai Praveen</title>
-<style>
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #ff7e5f, #feb47b, #86a8e7, #91eae4); 
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>தினசரி திருக்குர்ஆன் நினைவுறுத்தல் - Neon Genie Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Noto+Serif+Tamil:wght@400;700&display=swap" rel="stylesheet">
 
-  @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
+    <style>
+        body {
+            font-family: 'Noto Serif Tamil', serif;
+            background-color: #050c08; /* Deep dark obsidian green background */
+        }
+        .arabic-text {
+            font-family: 'Amiri', serif;
+        }
 
-  .login-container {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    padding: 40px 30px;
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-    width: 100%;
-    max-width: 400px;
-    z-index: 1;
-    text-align: center;
-    color: #fff;
-  }
+        /* Intense Neon Green Glow Effects */
+        .neon-border {
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3), inset 0 0 15px rgba(34, 197, 94, 0.2);
+            border: 2px solid #22c55e;
+        }
+        .neon-text-green {
+            text-shadow: 0 0 8px rgba(34, 197, 94, 0.8), 0 0 20px rgba(34, 197, 94, 0.4);
+        }
+        .neon-text-gold {
+            text-shadow: 0 0 8px rgba(234, 179, 8, 0.7);
+        }
 
-  .logo {
-    width: 80px;
-    margin: 0 auto 20px;
-    display: block;
-    filter: drop-shadow(0 0 5px rgba(255,255,255,0.6));
-  }
+        /* Floating Genie Lamp Animation */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .floating-lamp {
+            animation: float 4s ease-in-out infinite;
+        }
 
-  .login-container h2 {
-    margin-bottom: 20px;
-    color: #fff;
-    text-shadow: 0 0 5px rgba(0,0,0,0.3);
-  }
-
-  .login-container input[type="email"],
-  .login-container input[type="password"] {
-    width: 100%;
-    padding: 12px 15px;
-    margin: 8px 0 20px 0;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    background: rgba(255,255,255,0.2);
-    color: #fff;
-    outline: none;
-  }
-
-  .login-container input[type="email"]::placeholder,
-  .login-container input[type="password"]::placeholder {
-    color: rgba(255,255,255,0.8);
-  }
-
-  .login-container input[type="submit"] {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(90deg, #ff512f, #dd2476);
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-
-  .login-container input[type="submit"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-  }
-
-  .bottom-text {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #fff;
-  }
-
-  .bottom-text a {
-    color: #ffd700;
-    text-decoration: none;
-  }
-
-  .bottom-text a:hover {
-    text-decoration: underline;
-  }
-
-  .error-message {
-    color: #ff4c4c;
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-
-  .success-message {
-    color: #00ff9c;
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-</style>
+        /* Smoke Canvas Positioning */
+        #smokeCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
 </head>
-<body>
-<div class="login-container">
-  <img src="https://cdn-icons-png.flaticon.com/512/2203/2203076.png" alt="Petrol Pump Logo" class="logo">
-  <h2>Kodai Praveen</h2>
-  <div id="message"></div>
-  <form id="loginForm">
-    <input type="email" placeholder="Email" id="email" required />
-    <input type="password" placeholder="Password" id="password" required />
-    <input type="submit" value="Login">
-  </form>
-  <div class="bottom-text">
-    Don't have an account? <a href="#" onclick="register()">Register</a>
-  </div>
-</div>
+<body class="h-screen w-screen max-h-screen overflow-hidden flex flex-col justify-between text-stone-100 antialiased relative selection:bg-green-500/30">
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-green-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyAdC8EUQkKUjIx3yyBOA9omBlbldcc-qBk",
-    authDomain: "newbie-f80d4.firebaseapp.com",
-    projectId: "newbie-f80d4",
-    storageBucket: "newbie-f80d4.appspot.com",
-    messagingSenderId: "732898700777",
-    appId: "1:732898700777:web:c439841fa533c25452af78",
-    measurementId: "G-8K2YCHY6L7"
-  };
+    <canvas id="smokeCanvas"></canvas>
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+    <header class="w-full py-3 text-center border-b border-green-950 bg-black/40 backdrop-blur-sm z-10 flex-shrink-0">
+        <h1 class="text-xl md:text-2xl font-bold tracking-wide text-green-400 neon-text-green">
+            இன்றைய திருக்குர்ஆன் வசனம்
+        </h1>
+        <p class="text-[10px] uppercase tracking-widest text-green-600 font-sans mt-0.5">Automatically updates every day</p>
+    </header>
 
-  document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
+    <main class="max-w-3xl mx-auto px-4 py-2 h-[calc(100vh-130px)] flex flex-col justify-center items-center w-full z-10 overflow-hidden">
+        
+        <div class="w-full flex justify-between items-center mb-3 px-4 md:px-12 flex-shrink-0">
+            <div id="left-lamp" class="floating-lamp text-2xl md:text-4xl text-green-400 opacity-80 filter drop-shadow-[0_0_8px_rgba(34,197,94,0.6)]">🪔</div>
+            <span class="text-[10px] md:text-xs uppercase tracking-widest text-yellow-500 font-semibold neon-text-gold">Dora Bujji</span>
+            <div id="right-lamp" class="floating-lamp text-2xl md:text-4xl text-green-400 opacity-80 filter drop-shadow-[0_0_8px_rgba(34,197,94,0.6)]" style="animation-delay: 2s;">🪔</div>
+        </div>
 
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      showMessage('Login successful! ✅', 'success');
-      window.location.href = "dashboard.html";
-    } catch (error) {
-      showMessage(error.message, 'error');
-    }
-  });
+        <div class="w-full max-h-[80%] bg-black/60 backdrop-blur-md neon-border p-5 md:p-8 rounded-3xl text-center relative flex flex-col justify-between overflow-hidden">
+            
+            <div class="overflow-y-auto custom-scrollbar space-y-4 pr-1 my-auto">
+                <div class="arabic-text text-xl md:text-2xl text-green-300 tracking-wide opacity-90">
+                    بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+                </div>
 
-  window.register = async function() {
-    const email = prompt("Enter email:");
-    const password = prompt("Enter password (6+ characters):");
-    if (email && password) {
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        showMessage('Registration successful! You can now login.', 'success');
-      } catch (error) {
-        showMessage(error.message, 'error');
-      }
-    }
-  }
+                <div class="space-y-3">
+                    <p id="arabic-display" class="arabic-text text-xl md:text-2xl text-green-400 tracking-wide leading-loose neon-text-green">
+                        </p>
 
-  function showMessage(msg, type) {
-    const messageDiv = document.getElementById('message');
-    messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
-    messageDiv.textContent = msg;
-  }
-</script>
+                    <p id="tamil-display" class="text-base md:text-xl font-medium text-white leading-relaxed">
+                        </p>
+                </div>
+            </div>
+
+            <div class="w-24 h-[2px] bg-green-500 shadow-[0_0_8px_#22c55e] mx-auto my-4 flex-shrink-0"></div>
+
+            <div id="reference-display" class="text-xs font-semibold text-yellow-500 tracking-widest neon-text-gold flex-shrink-0">
+                </div>
+        </div>
+
+    </main>
+
+    <footer class="w-full py-2.5 text-center text-[11px] text-green-700 bg-black/60 border-t border-green-950 z-10 flex-shrink-0">
+        <p>&copy; Created By : Praveen</p>
+    </footer>
+
+    <script>
+        // Custom Quotes List
+        const myCustomQuotesList = [
+            {
+                arabic: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا", 
+                tamil: "நிச்சயமாக, ஒவ்வொரு சிரமத்துடனும் ஒரு எளிமை இருக்கிறது.", 
+                reference: "அல்குர்ஆன் 94:5"
+            },
+            {
+                arabic: "إِنَّ اللَّهَ مَعَ الصَّابِرِينَ", 
+                tamil: "நிச்சயமாக அல்லாஹ் பொறுமையாளர்களுடன் இருக்கிறான்.", 
+                reference: "அல்குர்ஆன் 2:153"
+            },
+            {
+                arabic: "وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", 
+                tamil: "அல்லாஹ்வை முற்றிலும் நம்பியிருப்பவருக்கு அவரே போதுமானவர்.", 
+                reference: "அல்குர்ஆன் 65:3"
+            },
+            {
+                arabic: "لَا تَقْنَطُوا مِنْ رَحْمَةِ اللَّهِ", 
+                tamil: "அல்லாஹ்வின் பேரருளில் நீங்கள் நம்பிக்கையிழக்க வேண்டாம்.", 
+                reference: "அல்குர்ஆன் 39:53"
+            },
+            {
+                arabic: "وَاللَّهُ يُحِبُّ الْمُحْسِنِينَ",
+                tamil: "அல்லாஹ் நன்மை செய்பவர்களை நேசிக்கிறான்.",
+                reference: "அல்குர்ஆன் 3:134"
+            },
+            {
+                arabic: "اذْكُرُونِي أَذْكُرْكُمْ",
+                tamil: "நீங்கள் என்னை நினைவுகூருங்கள்; நானும் உங்களை நினைவுகูருவேன்.",
+                reference: "அல்குர்ஆன் 2:152"
+            },
+            {
+                arabic: "إِنَّ اللَّهَ غَفُورٌ رَّحِيمٌ",
+                tamil: "நிச்சயமாக அல்லாஹ் மன்னிப்பவனும் அருளாளனும் ஆவான்.",
+                reference: "அல்குர்ஆன் 2:173"
+            },
+            {
+                arabic: "وَقُلْ رَبِّ زِدْنِي عِلْمًا",
+                tamil: "என் இறைவனே! எனது கல்வியை அதிகப்படுத்துவாயாக என்று கூறுவீராக.",
+                reference: "அல்குர்ஆன் 20:114"
+            },
+            {
+                arabic: "وَأَحْسِنُوا ۛ إِنَّ اللَّهَ يُحِبُّ الْمُحْسِنِينَ",
+                tamil: "நன்மை செய்யுங்கள்; நிச்சயமாக அல்லாஹ் நன்மை செய்வோரை நேசிக்கிறான்.",
+                reference: "அல்குர்ஆன் 2:195"
+            },
+            {
+                arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً",
+                tamil: "எங்கள் இறைவனே! எங்களுக்கு இம்மையிலும் மறுமையிலும் நன்மைகளைத் தருவாயாக.",
+                reference: "அல்குர்ஆன் 2:201"
+            },
+            {
+                arabic: "لَا إِكْرَاهَ فِي الدِّينِ",
+                tamil: "மார்க்கத்தில் எவ்வித வற்புறுத்தலும் இல்லை.",
+                reference: "அல்குர்ஆன் 2:256"
+            },
+            {
+                arabic: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا",
+                tamil: "அல்லாஹ் எந்தவோர் ஆத்மாவையும் அதன் சக்திக்கு மேல் சிரமப்படுத்துவதில்லை.",
+                reference: "அல்குர்ஆன் 2:286"
+            },
+            {
+                arabic: "وَاعْتَصِمُوا بِحَبْلِ اللَّهِ جَمِيعًا وَلَا تَفَرَّقُوا",
+                tamil: "அல்லாஹ்வின் கயிற்றை நீங்கள் அனைவரும் பலமாகப் பற்றிக்கொள்ளுங்கள், பிரிந்துவிடாதீர்கள்.",
+                reference: "அல்குர்ஆன் 3:103"
+            },
+            {
+                arabic: "كُلُّ نَفْسٍ ذَائِقَةُ الْمَوْتِ",
+                tamil: "ஒவ்வொரு ஆத்மாவும் மரணத்தைச் சுவைத்தே தீரும்.",
+                reference: "அல்குர்ஆன் 3:185"
+            },
+            {
+                arabic: "يَا أَيُّهَا الَّذِينَ آمَنُوا اصْبِرُوا وَصَابِرُوا",
+                tamil: "நம்பிக்கையாளர்களே! நீங்கள் பொறுமையுடன் இருங்கள், சகிப்புத்தன்மையைக் கடைப்பிடியுங்கள்.",
+                reference: "அல்குர்ஆன் 3:200"
+            },
+            {
+                arabic: "وَاعْبُدُوا اللَّهَ وَلَا تُشْرِكُوا بِهِ شَيْئًا",
+                tamil: "அல்லாஹ்வையே வணங்குங்கள்; அவனுக்கு எதனையும் இணையாக்காதீர்கள்.",
+                reference: "அல்குர்ஆன் 4:36"
+            },
+            {
+                arabic: "إِنَّ اللَّهَ لَا يَظْلِمُ مِثْقَالَ ذَرَّةٍ",
+                tamil: "நிச்சயமாக அல்லாஹ் ஓர் அணுவளவும் அநீதி இழைக்க மாட்டான்.",
+                reference: "அல்குர்ஆன் 4:40"
+            },
+            {
+                arabic: "وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَىٰ",
+                tamil: "நன்மைக்கும் பயபக்திக்கும் ஒருவருக்கொருவர் உதவி செய்து கொள்ளுங்கள்.",
+                reference: "அல்குர்ஆன் 5:2"
+            },
+            {
+                arabic: "إِنَّمَا وَلِيُّكُمُ اللَّهُ وَرَسُولُهُ",
+                tamil: "உங்களின் பாதுகாவலன் அல்லாஹ்வும் அவனுடைய தூதரும் தான்.",
+                reference: "அல்குர்ஆன் 5:55"
+            },
+            {
+                arabic: "ادْعُوا رَبَّكُمْ تَضَرُّعًا وَخُفْيَةً",
+                tamil: "உங்கள் இறைவனைப் பணிவோடும் இரகசியமாகவும் பிரார்த்தியுங்கள்.",
+                reference: "அல்குர்ஆன் 7:55"
+            },
+            {
+                arabic: "خُذِ الْعَفْوَ وَأْمُرْ بِالْعُرْفِ",
+                tamil: "மன்னிப்பைக் கடைப்பிடிப்பீராக; நன்மையை ஏவுவீராக.",
+                reference: "அல்குர்ஆன் 7:199"
+            },
+            {
+                arabic: "وَإِذَا قُرِئَ الْقُرْآنُ فَاسْتَمِعُوا لَهُ",
+                tamil: "குர்ஆன் ஓதப்படும் போது, அதனைச் செவிமடுத்து வாய்மூடி மௌனமாக இருங்கள்.",
+                reference: "அல்குர்ஆன் 7:204"
+            },
+            {
+                arabic: "إِنَّمَا الْمُؤْمِنُونَ الَّذِينَ إِذَا ذُكِرَ اللَّهُ وَجِلَتْ قُلُوبُهُمْ",
+                tamil: "உண்மையான நம்பிக்கையாளர்கள் யாரென்றால், அல்லாஹ் நினைவு கூறப்பட்டால் அவர்களின் இதயங்கள் நடுங்கும்.",
+                reference: "அல்குர்ஆன் 8:2"
+            },
+            {
+                arabic: "وَمَا كَانَ اللَّهُ مُعَذِّبَهُمْ وَهُمْ يَسْتَغْفِرُونَ",
+                tamil: "அவர்கள் மன்னிப்புத் தேடிக்கொண்டிருக்கும் வரை அல்லாஹ் அவர்களை வேதனை செய்ய மாட்டான்.",
+                reference: "அல்குர்ஆன் 8:33"
+            },
+            {
+                arabic: "فَاسْتَقِمْ كَمَا أُمِرْتَ",
+                tamil: "நீர் கட்டளையிடப்பட்டவாறே நேர்வழியில் உறுதியாக இருப்பீராக.",
+                reference: "அல்குர்ஆன் 11:112"
+            },
+            {
+                arabic: "إِنَّ الْحَسَنَاتِ يُذْهِبْنَ السَّيِّئَاتِ",
+                tamil: "நிச்சயமாக நன்மைகள் தீமைகளை அழித்துவிடும்.",
+                reference: "அல்குர்ஆன் 11:114"
+            },
+            {
+                arabic: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+                tamil: "அறிந்து கொள்க! அல்லாஹ்வின் நினைவால் தான் இதயங்கள் அமைதி பெறுகின்றன.",
+                reference: "அல்குர்ஆன் 13:28"
+            },
+            {
+                arabic: "وَآتَاكُمْ مِنْ كُلِّ مَا سَأَلْتُمُوهُ",
+                tamil: "நீங்கள் அவனிடம் கேட்டவை அனைத்திலிருந்தும் அவன் உங்களுக்கு வழங்கினான்.",
+                reference: "அல்குர்ஆன் 14:34"
+            },
+            {
+                arabic: "لَئِنْ شَكَرْتُمْ لَأَزِيدَنَّكُمْ",
+                tamil: "நீங்கள் நன்றி செலுத்தினால், நிச்சயமாக நான் உங்களுக்கு (என்னுடைய அருளை) அதிகப்படுத்துவேன்.",
+                reference: "அல்குர்ஆன் 14:7"
+            },
+            {
+                arabic: "وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوا إِلَّا إِيَّاهُ وَبِالْوَالِدَيْنِ إِحْسَانًا",
+                tamil: "அவனையன்றி வேறு எவரையும் வணங்கக்கூடாது என்றும், பெற்றோருக்கு நன்மை செய்ய வேண்டும் என்றும் உமது இறைவன் கட்டளையிட்டுள்ளான்.",
+                reference: "அல்குர்ஆன் 17:23"
+            },
+            {
+                arabic: "وَلَا تَقْفُ مَا لَيْسَ لَكَ بِهِ عِلْمٌ",
+                tamil: "உமக்குத் தெரியாத விஷயத்தின் பின்னே நீர் செல்ல வேண்டாம்.",
+                reference: "அல்குர்ஆன் 17:36"
+            },
+            {
+                arabic: "وَلَا تَمْشِ فِي الْأَرْضِ مَرَحًا",
+                tamil: "பூமியில் பெருமையாக நடக்காதே.",
+                reference: "அல்குர்ஆன் 17:37"
+            },
+            {
+                arabic: "وَقُلْ جَاءَ الْحَقُّ وَزَهَقَ الْبَاطِلُ",
+                tamil: "சத்தியம் வந்தது, அசத்தியம் அழிந்தது என்று கூறுவீராக.",
+                reference: "அல்குர்ஆன் 17:81"
+            },
+            {
+                arabic: "وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ",
+                tamil: "குர்ஆனில் நம்பிக்கையாளர்களுக்குக் குணமாகவும் அருளாகவும் உள்ளவற்றையே நாம் இறக்குகிறோம்.",
+                reference: "அல்குர்ஆன் 17:82"
+            },
+            {
+                arabic: "الْمَالُ وَالْبَنُونَ زِينَةُ الْحَيَاةِ الدُّنْيَا",
+                tamil: "செல்வமும் பிள்ளைகளும் இவ்வுலக வாழ்க்கையின் அலங்காரங்களாகும்.",
+                reference: "அல்குர்ஆன் 18:46"
+            },
+            {
+                arabic: "قَالَ رَبِّ اشْرَحْ لِي صَدْرِي",
+                tamil: "என் இறைவனே! என் நெஞ்சத்தை எனக்காக விசாலமாக்குவாயாக.",
+                reference: "அல்குர்ஆன் 20:25"
+            },
+            {
+                arabic: "وَيَسِّرْ لِي أَمْرِي",
+                tamil: "என் காரியத்தை எனக்கு எளிதாக்குவாயாக.",
+                reference: "அல்குர்ஆன் 20:26"
+            },
+            {
+                arabic: "وَجَعَلْنَا مِنَ الْمَاءِ كُلَّ شَيْءٍ حَيٍّ",
+                tamil: "உயிருள்ள ஒவ்வொரு பொருளையும் நீரிலிருந்தே நாம் அமைத்தோம்.",
+                reference: "அல்குர்ஆன் 21:30"
+            },
+            {
+                arabic: "وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِلْعَالَمِينَ",
+                tamil: "அகிலத்தாருக்கு ஓர் அருட்கொடையாகவே அன்றி நாம் உம்மை அனுப்பவில்லை.",
+                reference: "அல்குர்ஆன் 21:107"
+            },
+            {
+                arabic: "لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+                tamil: "உன்னைத் தவிர வணக்கத்திற்குரியவன் யாருமில்லை, நீ தூய்மையானவன்; நிச்சயமாக நான் அநீதியாளர்களில் ஒருவனாகிவிட்டேன்.",
+                reference: "அல்குர்ஆன் 21:87"
+            },
+            {
+                arabic: "ذَٰلِكَ بِأَنَّ اللَّهَ هُوَ الْحَقُّ",
+                tamil: "ஏனெனில், நிச்சயமாக அல்லாஹ்வே உண்மையானவன்.",
+                reference: "அல்குர்ஆன் 22:62"
+            },
+            {
+                arabic: "قَدْ أَفْلَحَ الْمُؤْمِنُونَ",
+                tamil: "நிச்சயமாக நம்பிக்கையாளர்கள் வெற்றி பெற்றுவிட்டனர்.",
+                reference: "அல்குர்ஆன் 23:1"
+            },
+            {
+                arabic: "الَّذِينَ هُمْ فِي صَلَاتِهِمْ خَاشِعُونَ",
+                tamil: "அவர்கள் தங்களுடைய தொழுகைகளில் உள்ளச்சத்தோடு இருப்பார்கள்.",
+                reference: "அல்குர்ஆன் 23:2"
+            },
+            {
+                arabic: "وَالَّذِينَ هُمْ عَنِ اللَّغْوِ مُعْرِضُونَ",
+                tamil: "அவர்கள் வீணான காரியங்களை விட்டும் விலகியிருப்பார்கள்.",
+                reference: "அல்குர்ஆன் 23:3"
+            },
+            {
+                arabic: "اللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ",
+                tamil: "அல்லாஹ் வானங்கள் மற்றும் பூமியின் ஒளியாவான்.",
+                reference: "அல்குர்ஆன் 24:35"
+            },
+            {
+                arabic: "وَتَوَكَّلْ عَلَى الْحَيِّ الَّذِي لَا يَمُوتُ",
+                tamil: "மரணிக்காது என்றும் உயிருடன் இருக்கும் (அல்லாஹ்) ஒருவனையே முற்றிலும் நம்பியிருப்பீராக.",
+                reference: "அல்குர்ஆன் 25:58"
+            },
+            {
+                arabic: "وَإِذَا خَاطَبَهُمُ الْجَاهِلُونَ قَالُوا سَلَامًا",
+                tamil: "அறிவீனர்கள் அவர்களுடன் உரையாடினால், அவர்கள் 'ஸலாம்' (சாந்தி உண்டாகட்டும்) என்று கூறிவிடுவார்கள்.",
+                reference: "அல்குர்ஆன் 25:63"
+            },
+            {
+                arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ",
+                tamil: "எங்கள் இறைவனே! எங்கள் மனைவியர் மற்றும் பிள்ளைகள் மூலம் எங்கள் கண்களுக்குக் குளிர்ச்சியைத் தருவாயாக.",
+                reference: "அல்குர்ஆன் 25:74"
+            },
+            {
+                arabic: "وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ",
+                tamil: "நான் நோயுற்றபோது, அவன் தான் எனக்கு நிவாரணம் அளிக்கிறான்.",
+                reference: "அல்குர்ஆன் 26:80"
+            },
+            {
+                arabic: "وَلَا تُخْزِنِي يَوْمَ يُبْعَثُونَ",
+                tamil: "மனிதர்கள் உயிர் கொடுத்து எழுப்பப்படும் நாளில் என்னை அவமதித்து விடாதே.",
+                reference: "அல்குர்ஆன் 26:87"
+            },
+            {
+                arabic: "يَوْمَ لَا يَنْفَعُ مَالٌ وَلَا بَنُونَ",
+                tamil: "அந்நாளில் செல்வமும் பிள்ளைகளும் பயன் தராது.",
+                reference: "அல்குர்ஆன் 26:88"
+            },
+            {
+                arabic: "إِلَّا مَنْ أَتَى اللَّهَ بِقَلْبٍ سَلِيمٍ",
+                tamil: "பரிசுத்தமான இதயத்தோடு அல்லாஹ்விடம் வருபவரைத் தவிர.",
+                reference: "அல்குர்ஆன் 26:89"
+            },
+            {
+                arabic: "وَمَنْ شَكَرَ فَإِنَّمَا يَشْكُرُ لِنَفْسِهِ",
+                tamil: "யார் நன்றி செலுத்துகிறாரோ, அவர் தன் நன்மைக்காகவே நன்றி செலுத்துகிறார்.",
+                reference: "அல்குர்ஆன் 27:40"
+            },
+            {
+                arabic: "إِنَّ الصَّلَاةَ تَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنْكَرِ",
+                tamil: "நிச்சயமாக தொழுகையானது மானக்கேடான மற்றும் தீய காரியங்களை விட்டும் விலக்குகிறது.",
+                reference: "அல்குர்ஆன் 29:45"
+            },
+            {
+                arabic: "وَابْتَغِ فِيمَا آتَاكَ اللَّهُ الدَّارَ الْآخِرَةَ",
+                tamil: "அல்லாஹ் உமக்குக் கொடுத்திருப்பதைக் கொண்டு மறுமை வாழ்வைத் தேடிக் கொள்வீராக.",
+                reference: "அல்குர்ஆன் 28:77"
+            },
+            {
+                arabic: "وَلَا تَبْغِ الْفَسَادَ فِي الْأَرْضِ",
+                tamil: "பூமியில் குழப்பம் செய்ய முற்படாதே.",
+                reference: "அல்குர்ஆன் 28:77"
+            },
+            {
+                arabic: "أَحَسِبَ النَّاسُ أَنْ يُتْرَكُوا أَنْ يَقُولُوا آمَنَّا وَهُمْ لَا يُفْتَنُونَ",
+                tamil: "மனிதர்கள் 'நாங்கள் நம்பிக்கை கொண்டோம்' என்று கூறுவதனால் மட்டும் சோதிக்கப்படாமல் விட்டுவிடப்படுவார்கள் என்று எண்ணிக் கொண்டார்களா?",
+                reference: "அல்குர்ஆன் 29:2"
+            },
+            {
+                arabic: "وَمَنْ جَاهَدَ فَإِنَّمَا يُجَاهِدُ لِنَفْسِهِ",
+                tamil: "யார் முயற்சி செய்கிறாரோ, அவர் தன் ஆத்மாவின் நன்மைக்காகவே முயற்சி செய்கிறார்.",
+                reference: "அல்குர்ஆன் 29:6"
+            },
+            {
+                arabic: "ظَهَرَ الْفَسَادُ فِي الْبَرِّ وَالْبَحْرِ بِمَا كَسَبَتْ أَيْدِي النَّاسِ",
+                tamil: "மனிதர்களின் கரங்கள் செய்த தீமையின் காரணமாகத் தரையிலும் கடலிலும் குழப்பம் தோன்றிவிட்டது.",
+                reference: "அல்குர்ஆன் 30:41"
+            },
+            {
+                arabic: "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا",
+                tamil: "நீங்கள் அமைதி பெறுவதற்காக உங்களிலிருந்தே துணைகளை உங்களுக்காகப் படைத்திருப்பது அவனது சான்றுகளில் உள்ளதாகும்.",
+                reference: "அல்குர்ஆன் 30:21"
+            },
+            {
+                arabic: "وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً",
+                tamil: "மேலும், உங்களுக்கு இடையே அன்பையும் கருணையையும் அவன் உண்டாக்கினான்.",
+                reference: "அல்குர்ஆன் 30:21"
+            },
+            {
+                arabic: "وَاقْصِدْ فِي مَشْيِكَ وَاغْضُضْ مِنْ صَوْتِكَ",
+                tamil: "உனது நடையில் நடுத்தரத்தைக் கடைப்பிடி, உனது குரலையும் தாழ்த்திக் கொள்.",
+                reference: "அல்குர்ஆன் 31:19"
+            },
+            {
+                arabic: "إِنَّ أَنْكَرَ الْأَصْوَاتِ لَصَوْتُ الْحَمِيرِ",
+                tamil: "நிச்சயமாக சப்தங்களில் மிகவும் வெறுக்கத்தக்கது கழுதையின் சப்தமாகும்.",
+                reference: "அல்குர்ஆன் 31:19"
+            },
+            {
+                arabic: "وَمَا تَدْرِي نَفْسٌ مَاذَا تَكْسِبُ غَدًا",
+                tamil: "நாளைக்குத் தான் என்ன சம்பாதிப்போம் என்பதை எந்த ஓர் ஆத்மாவும் அறிவதில்லை.",
+                reference: "அல்குர்ஆன் 31:34"
+            },
+            {
+                arabic: "وَمَا تَدْرِي نَفْسٌ بِأَيِّ أَرْضٍ تَمُوتُ",
+                tamil: "தான் எந்த பூமியில் மரணிப்போம் என்பதையும் எந்த ஓர் ஆத்மாவும் அறிவதில்லை.",
+                reference: "அல்குர்ஆன் 31:34"
+            },
+            {
+                arabic: "يَا أَيُّهَا الَّذِينَ آمَنُوا اذْكُرُوا اللَّهَ ذِكْرًا كَثِيرًا",
+                tamil: "நம்பிக்கையாளர்களே! அல்லாஹ்வை அதிகமதிகம் நினைவு கூருங்கள்.",
+                reference: "அல்குர்ஆன் 33:41"
+            },
+            {
+                arabic: "وَسَبِّحُوهُ بُكْرَةً وَأَصِيلًا",
+                tamil: "மேலும், காலையிலும் மாலையிலும் அவனைத் துதி செய்யுங்கள்.",
+                reference: "அல்குர்ஆன் 33:42"
+            },
+            {
+                arabic: "يَا أَيُّهَا النَّاسُ أَنْتُمُ الْفُقَرَاءُ إِلَى اللَّهِ",
+                tamil: "மனிதர்களே! நீங்கள் தான் அல்லாஹ்வின் பால் தேவை உடையவர்களாக இருக்கிறீர்கள்.",
+                reference: "அல்குர்ஆன் 35:15"
+            },
+            {
+                arabic: "وَاللَّهُ هُوَ الْغَنِيُّ الْمَحْمِيدُ",
+                tamil: "அல்லாஹ்வோ எவ்விதத் தேவையுமற்றவன், புகழுக்குரியவன்.",
+                reference: "அல்குர்ஆன் 35:15"
+            },
+            {
+                arabic: "إِنَّمَا أَمْرُهُ إِذَا أَرَادَ شَيْئًا أَنْ يَقُولَ لَهُ كُنْ فَيَكُونُ",
+                tamil: "அவன் ஏதேனும் ஒரு பொருளை (படைக்க) நாடினால், அதற்கு 'ஆகு' என்று கூறுவது தான் அவனது கட்டளையாகும்; உடனே அது ஆகிவிடுகிறது.",
+                reference: "அல்குர்ஆன் 36:82"
+            },
+            {
+                arabic: "فَسُبْحَانَ الَّذِي بِيَدِهِ مَلَكُوتُ كُلِّ شَيْءٍ",
+                tamil: "அனைத்துப் பொருட்களின் ஆட்சியும் எவன் கையில் இருக்கிறதோ அவன் தூய்மையானவன்.",
+                reference: "அல்குர்ஆன் 36:83"
+            },
+            {
+                arabic: "قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنْفُسِهِمْ لَا تَقْنَطُوا مِنْ رَحْمَةِ اللَّهِ",
+                tamil: "தங்களுக்குத் தாங்களே அநீதி இழைத்துக் கொண்ட என் அடியார்களே! அல்லாஹ்வின் கருணையில் நீங்கள் நம்பிக்கையிழக்க வேண்டாம் என்று கூறுவீராக.",
+                reference: "அல்குர்ஆன் 39:53"
+            },
+            {
+                arabic: "إِنَّ اللَّهَ يَغْفِرُ الذُّنُوبَ جَمِيعًا",
+                tamil: "நிச்சயமாக அல்லாஹ் பாவங்கள் அனைத்தையும் மன்னித்துவிடுவான்.",
+                reference: "அல்குர்ஆன் 39:53"
+            },
+            {
+                arabic: "وَقَالَ رَبُّكُمُ ادْعُونِي أَسْتَجِبْ لَكُمْ",
+                tamil: "என்னை பிராத்தியுங்கள்; நான் உங்கள் பிரார்த்தனையை ஏற்றுக் கொள்கிறேன் என்று உங்கள் இறைவன் கூறுகிறான்.",
+                reference: "அல்குர்ஆன் 40:60"
+            },
+            {
+                arabic: "إِنَّ الَّذِينَ قَالُوا رَبُّنَا اللَّهُ ثُمَّ اسْتَقَامُوا تَتَنَزَّلُ عَلَيْهِمُ الْمَلَائِكَةُ",
+                tamil: "நிச்சயமாக எவர்கள் 'எங்கள் இறைவன் அல்லாஹ் தான்' என்று கூறி, பின்னர் அதிலேயே உறுதியாகவும் இருக்கிறார்களோ, அவர்களிடம் வானவர்கள் இறங்குவார்கள்.",
+                reference: "அல்குர்ஆன் 41:30"
+            },
+            {
+                arabic: "ادْفَعْ بِالَّتِي هِيَ أَحْسَنُ",
+                tamil: "மிகவும் அழகான நன்மையைக் கொண்டு தீமையைத் தடுத்துக் கொள்வீராக.",
+                reference: "அல்குர்ஆன் 41:34"
+            },
+            {
+                arabic: "فَإِذَا الَّذِي بَيْنَكَ وَبَيْنَهُ عَدَاوَةٌ كَأَنَّهُ وَلِيٌّ حَمِيمٌ",
+                tamil: "அப்போது உமக்கும் எவருக்கும் இடையே பகைமை இருந்ததோ, அவர் உமது உற்ற நண்பரைப் போல் ஆகிவிடுவார்.",
+                reference: "அல்குர்ஆன் 41:34"
+            },
+            {
+                arabic: "فَمَا أُوتِيتُمْ مِنْ شَيْءٍ فَمَتَاعُ الْحَيَاةِ الدُّنْيَا",
+                tamil: "உங்களுக்குக் கொடுக்கப்பட்டிருப்பவை யாவும் இவ்வுலக வாழ்க்கையின் தற்காலிகப் பயன்பாடாகும்.",
+                reference: "அல்குர்ஆன் 42:36"
+            },
+            {
+                arabic: "وَمَا عِنْدَ اللَّهِ خَيْرٌ وَأَبْقَىٰ لِلَّذِينَ آمَنُوا",
+                tamil: "நம்பிக்கை கொண்டோருக்கு அல்லாஹ்விடம் இருப்பது மிகவும் சிறந்ததும் நிலையானதும் ஆகும்.",
+                reference: "அல்குர்ஆன் 42:36"
+            },
+            {
+                arabic: "وَجَزَاءُ سَيِّئَةٍ سَيِّئَةٌ مِثْلُهَا",
+                tamil: "தீமைக்கான கூலி அதுபோன்றதொரு தீமையே ஆகும்.",
+                reference: "அல்குர்ஆன் 42:40"
+            },
+            {
+                arabic: "فَمَنْ عَفَا وَأَصْلَحَ فَأَجْرُهُ عَلَى اللَّهِ",
+                tamil: "எனினும், யார் மன்னித்துச் சீர்திருத்தம் செய்கிறாரோ, அவருக்குரிய கூலி அல்லாஹ்விடம் இருக்கிறது.",
+                reference: "அல்குர்ஆன் 42:40"
+            },
+            {
+                arabic: "إِنَّمَا الْمُؤْمِنُونَ إِخْوَةٌ فَأَصْلِحُوا بَيْنَ أَخَوَيْكُمْ",
+                tamil: "நிச்சயமாக நம்பிக்கையாளர்கள் அனைவரும் சகோதரர்கள் தாம்; எனவே உங்கள் இரு சகோதரர்களுக்கு இடையே சமாதானம் செய்து வையுங்கள்.",
+                reference: "அல்குர்ஆன் 49:10"
+            },
+            {
+                arabic: "يَا أَيُّهَا الَّذِينَ آمَنُوا اجْتَنِبُوا كَثِيرًا مِنَ الظَّنِّ",
+                tamil: "நம்பிக்கையாளர்களே! சந்தேகங்களில் பெரும்பாலானவற்றைத் தவிர்த்துக் கொள்ளுங்கள்.",
+                reference: "அல்குர்ஆன் 49:12"
+            },
+            {
+                arabic: "إِنَّ بَعْضَ الظَّنِّ إِثْمٌ",
+                tamil: "ஏனெனில், நிச்சயமாக சந்தேகங்களில் சில பாவங்களாக இருக்கும்.",
+                reference: "அல்குர்ஆன் 49:12"
+            },
+            {
+                arabic: "وَلَا تَجَسَّسُوا وَلَا يَغْتَبْ بَعْضُكُمْ بَعْضًا",
+                tamil: "நீங்கள் அடுத்தவர் குறைகளைத் துப்பறிய வேண்டாம், உங்களில் சிலர் சிலரைப் புறம்பேசவும் வேண்டாம்.",
+                reference: "அல்குர்ஆன் 49:12"
+            },
+            {
+                arabic: "إِنَّ أَكْرَمَكُمْ عِنْدَ اللَّهِ أَتْقَاكُمْ",
+                tamil: "நிச்சயமாக அல்லாஹ்விடம் உங்களில் மிக கண்ணியமானவர் உங்களில் அதிக பயபக்தி உடையவர் தான்.",
+                reference: "அல்குர்ஆன் 49:13"
+            },
+            {
+                arabic: "وَلَقَدْ خَلَقْنَا الْإِنْسَانَ وَنَعْلَمُ مَا تُوَسْوِسُ بِهِ نَفْسُهُ",
+                tamil: "நிச்சயமாக மனிதனை நாமே படைத்தோம்; அவனது மனம் அவனுக்கு என்ன அலைபாய்கிறது என்பதையும் நாம் அறிவோம்.",
+                reference: "அல்குர்ஆன் 50:16"
+            },
+            {
+                arabic: "وَنَحْنُ أَقْرَبُ إِلَيْهِ مِنْ حَبْلِ الْوَرِيدِ",
+                tamil: "மேலும், நாம் அவனது பிடரி நரம்பை விட அவனுக்கு மிக நெருக்கமாக இருக்கிறோம்.",
+                reference: "அல்குர்ஆன் 50:16"
+            },
+            {
+                arabic: "مَا يَلْفِظُ مِنْ قَوْلٍ إِلَّا لَدَيْهِ رَقِيبٌ عَتِيدٌ",
+                tamil: "அவன் எந்த ஒரு சொல்லைக் கூறினாலும், அவனிடம் கண்காணிக்கும் எழுத்தாளர் தயாராக இல்லாமல் இருப்பதில்லை.",
+                reference: "அல்குர்ஆன் 50:18"
+            },
+            {
+                arabic: "فَبِأَيِّ آلَاءِ رَبِّكُمَا تُكَذِّبَانِ",
+                tamil: "எனவே, உங்கள் இருசாராரும் உங்கள் இறைவனின் அருட்கொடைகளில் எதனைப் பொய்யாக்குவீர்கள்?",
+                reference: "அல்குர்ஆன் 55:13"
+            },
+            {
+                arabic: "هَلْ جَزَاءُ الْإِحْسَانِ إِلَّا الْإِحْسَانُ",
+                tamil: "நன்மைக்கு நன்மை தவிர வேறு கூலி உண்டா?",
+                reference: "அல்குர்ஆன் 55:60"
+            },
+            {
+                arabic: "كُلُّ مَنْ عَلَيْهَا فَانٍ",
+                tamil: "பூமியின் மேல் உள்ளவை யாவும் அழியக் கூடியவையே.",
+                reference: "அல்குர்ஆன் 55:26"
+            },
+            {
+                arabic: "وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو الْجَلَالِ وَالْإِكْرَامِ",
+                tamil: "மகிமையும் கண்ணியமும் மிக்க உமது இறைவனின் முகம் மட்டுமே நிலைத்திருக்கும்.",
+                reference: "அல்குர்ஆன் 55:27"
+            },
+            {
+                arabic: "فَسَبِّحْ بِاسْمِ رَبِّكَ الْعَظِيمِ",
+                tamil: "எனவே, மகத்தான உமது இறைவனின் திருநாமத்தைத் துதிப்பீராக.",
+                reference: "அல்குர்ஆன் 56:74"
+            },
+            {
+                arabic: "هُوَ الْأَوَّلُ وَالْآخِرُ وَالظَّاهِرُ وَالْبَاطِنُ",
+                tamil: "அவனே முதலானவன், இறுதியானவன், பகிரங்கமானவன், அந்தரங்கமானவன்.",
+                reference: "அல்குர்ஆன் 57:3"
+            },
+            {
+                arabic: "وَهُوَ مَعَكُمْ أَيْنَ مَا كُنْتُمْ",
+                tamil: "நீங்கள் எங்கு இருந்தாலும் அவன் உங்களுடனே இருக்கிறான்.",
+                reference: "அல்குர்ஆன் 57:4"
+            },
+            {
+                arabic: "اعْلَمُوا أَنَّمَا الْحَيَاةُ الدُّنْيَا لَعِبٌ وَلَهْوٌ",
+                tamil: "இவ்வுலக வாழ்க்கை என்பது விளையாட்டும் வேடிக்கையும் தான் என்பதை அறிந்து கொள்ளுங்கள்.",
+                reference: "அல்குர்ஆன் 57:20"
+            },
+            {
+                arabic: "يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنْظُرْ نَفْسٌ مَا قَدَّمَتْ لِغَدٍ",
+                tamil: "நம்பிக்கையாளர்களே! அல்லாஹ்வுக்கு அஞ்சுங்கள்; ஒவ்வொரு ஆத்மாவும் நாளைக்காக (மறுமைக்காக) தான் என்ன தயாரித்து அனுப்பியிருக்கிறது என்று பார்க்கட்டும்.",
+                reference: "அல்குர்ஆன் 59:18"
+            },
+            {
+                arabic: "وَلَا تَكُونُوا كَالَّذِينَ نَسُوا اللَّهَ فَأَنْسَاهُمْ أَنْفُسَهُمْ",
+                tamil: "அல்லாஹ்வை மறந்துவிட்டவர்களைப் போல் நீங்கள் ஆகிவிடாதீர்கள்; அதனால் அவன் அவர்கள் தங்களையே மறக்கும்படி செய்துவிட்டான்.",
+                reference: "அல்குர்ஆன் 59:19"
+            },
+            {
+                arabic: "لَوْ أَنْزَلْنَا هَٰذَا الْقُرْآنَ عَلَىٰ جَبَلٍ لَرَأَيْتَهُ خَاشِعًا مُتَصَدِّعًا مِنْ خَشْيَةِ اللَّهِ",
+                tamil: "இந்த குர்ஆனை ஒரு மலையின் மீது நாம் இறக்கியிருந்தால், அது அல்லாஹ்வின் அச்சத்தால் பணிந்து, நொறுங்கிப் போவதைக் கண்டிருப்பீர்.",
+                reference: "அல்குர்ஆன் 59:21"
+            },
+            {
+                arabic: "يَا أَيُّهَا الَّذِينَ آمَنُوا لِمَ تَقُولُونَ مَا لَا تَفْعَلُونَ",
+                tamil: "நம்பிக்கையாளர்களே! நீங்கள் செய்யாததை ஏன் சொல்கிறீர்கள்?",
+                reference: "அல்குர்ஆன் 61:2"
+            }
+        ];
+
+        function loadDailyQuote() {
+            const today = new Date();
+            const dayCounter = Math.floor(today.getTime() / (1000 * 60 * 60 * 24));
+            
+            const quoteIndex = dayCounter % myCustomQuotesList.length;
+            const todaysQuote = myCustomQuotesList[quoteIndex];
+
+            document.getElementById('arabic-display').innerText = todaysQuote.arabic;
+            document.getElementById('tamil-display').innerText = `"${todaysQuote.tamil}"`;
+            document.getElementById('reference-display').innerText = todaysQuote.reference;
+        }
+
+        // --- Smoke Simulation Engine ---
+        const canvas = document.getElementById('smokeCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let particles = [];
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 20 + 10;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * -1.2 - 0.4; 
+                this.maxLife = Math.random() * 100 + 80;
+                this.life = this.maxLife;
+                this.opacity = Math.random() * 0.25 + 0.1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.size += 0.15; 
+                this.life--;
+            }
+
+            draw() {
+                let currentOpacity = (this.life / this.maxLife) * this.opacity;
+                ctx.beginPath();
+                let gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+                gradient.addColorStop(0, `rgba(34, 197, 94, ${currentOpacity})`); 
+                gradient.addColorStop(0.5, `rgba(22, 163, 74, ${currentOpacity * 0.4})`); 
+                gradient.addColorStop(1, 'rgba(0, 0, 0, 0)'); 
+                
+                ctx.fillStyle = gradient;
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function getLampPositions() {
+            const leftLamp = document.getElementById('left-lamp').getBoundingClientRect();
+            const rightLamp = document.getElementById('right-lamp').getBoundingClientRect();
+            return [
+                { x: leftLamp.left + leftLamp.width / 2, y: leftLamp.top + leftLamp.height / 3 },
+                { x: rightLamp.left + rightLamp.width / 2, y: rightLamp.top + rightLamp.height / 3 }
+            ];
+        }
+
+        function animateSmoke() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (document.getElementById('left-lamp')) {
+                const lamps = getLampPositions();
+                lamps.forEach(lamp => {
+                    if(Math.random() < 0.12) { 
+                        particles.push(new Particle(lamp.x, lamp.y));
+                    }
+                });
+            }
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                if (particles[i].life <= 0) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animateSmoke);
+        }
+
+        window.onload = function() {
+            loadDailyQuote();
+            animateSmoke();
+        };
+    </script>
 </body>
 </html>
-

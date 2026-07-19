@@ -1,1 +1,6 @@
-
+@echo off
+setlocal
+set BASENAME=%~n0
+set BINDIR=%~dp0
+if "%PHP_PEAR_BIN_DIR%" == "" set PHP_PEAR_BIN_DIR=%BINDIR%
+java -jar "%BINDIR%%BASENAME%.jar" %*

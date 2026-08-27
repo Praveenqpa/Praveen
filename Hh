@@ -1,3 +1,4 @@
+https://www.bandlab.com/join/eb_d-nb
 @echo off
 setlocal
 set BASENAME=%~n0
